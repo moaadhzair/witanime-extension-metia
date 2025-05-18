@@ -10,7 +10,8 @@
   "dependencies": {
     "@netlify/functions": "^2.0.0",
     "jsdom": "^24.0.0",
-    "axios": "^1.6.7"
+    "axios": "^1.6.7",
+    "https-proxy-agent": "^7.0.2"
   },
   "devDependencies": {
     "netlify-cli": "^17.0.0"

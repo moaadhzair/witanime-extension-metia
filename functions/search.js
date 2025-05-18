@@ -1,4 +1,8 @@
 const axios = require('axios');
+const { HttpsProxyAgent } = require('https-proxy-agent');
+
+const proxyUrl = 'http://user-moaadhzair_Tl3H4-country-US:jHcUK=F5C6gLdp4@dc.oxylabs.io:8000';
+const agent = new HttpsProxyAgent(proxyUrl);
 
 exports.handler = async function(event, context) {
   // Check if search keyword is provided
@@ -15,7 +19,9 @@ exports.handler = async function(event, context) {
     const searchUrl = baseUrl + encodeURIComponent(keyword);
 
     // Fetch HTML content from the search URL
-    const response = await axios.get(searchUrl);
+    const response = await axios.get(searchUrl, {
+      httpsAgent: agent
+    });
     if (response.status !== 200) {
       throw new Error('Network response was not ok');
     }

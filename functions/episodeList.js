@@ -1,4 +1,8 @@
 const axios = require('axios');
+const { HttpsProxyAgent } = require('https-proxy-agent');
+
+const proxyUrl = 'http://user-moaadhzair_Tl3H4-country-US:jHcUK=F5C6gLdp4@dc.oxylabs.io:8000';
+const agent = new HttpsProxyAgent(proxyUrl);
 
 exports.handler = async function(event, context) {
   // Check if session URL is provided
@@ -13,7 +17,9 @@ exports.handler = async function(event, context) {
     const sessionUrl = event.queryStringParameters.session;
     
     // Fetch HTML content from the session URL
-    const response = await axios.get(sessionUrl);
+    const response = await axios.get(sessionUrl, {
+      httpsAgent: agent
+    });
     if (response.status !== 200) {
       throw new Error('Network response was not ok');
     }
