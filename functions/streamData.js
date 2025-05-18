@@ -9,7 +9,7 @@ exports.handler = async function(event, context) {
   if (!event.queryStringParameters || !event.queryStringParameters.session) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ error: 'Session URL is required' })
+      body: JSON.stringify({ status: "error", message: 'Session URL is required' })
     };
   }
 
@@ -56,7 +56,7 @@ exports.handler = async function(event, context) {
     if (!_zG || !_zH) {
       return {
         statusCode: 404,
-        body: JSON.stringify({ error: 'Stream data not found' })
+        body: JSON.stringify({ status: "error", message: 'Stream data not found' })
       };
     }
 
@@ -92,14 +92,15 @@ exports.handler = async function(event, context) {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        servers: servers
+        status: "success",
+        data: servers
       })
     };
 
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message })
+      body: JSON.stringify({ status: "error", message: error.message })
     };
   }
 }

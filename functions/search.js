@@ -9,7 +9,7 @@ exports.handler = async function(event, context) {
   if (!event.queryStringParameters || !event.queryStringParameters.keyword) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ error: 'Search keyword is required' })
+      body: JSON.stringify({ status: "error", message: 'Search keyword is required' })
     };
   }
 
@@ -57,13 +57,13 @@ exports.handler = async function(event, context) {
 
     return {
       statusCode: 200,
-      body: JSON.stringify(animeList)
+      body: JSON.stringify({ status: "success", data: animeList })
     };
 
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message })
+      body: JSON.stringify({ status: "error", message: error.message })
     };
   }
 } 
