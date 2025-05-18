@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 exports.handler = async function(event, context) {
   // Check if session URL is provided
   if (!event.queryStringParameters || !event.queryStringParameters.session) {
@@ -11,11 +13,11 @@ exports.handler = async function(event, context) {
     const sessionUrl = event.queryStringParameters.session;
     
     // Fetch HTML content from the session URL
-    const response = await fetch(sessionUrl);
-    if (!response.ok) {
+    const response = await axios.get(sessionUrl);
+    if (response.status !== 200) {
       throw new Error('Network response was not ok');
     }
-    const htmlText = await response.text();
+    const htmlText = response.data;
 
     // Use jsdom to parse the HTML
     const { JSDOM } = require('jsdom');

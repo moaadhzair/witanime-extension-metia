@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 exports.handler = async function(event, context) {
   // Check if session URL is provided
   if (!event.queryStringParameters || !event.queryStringParameters.session) {
@@ -11,11 +13,11 @@ exports.handler = async function(event, context) {
     const sessionUrl = event.queryStringParameters.session;
     
     // Fetch HTML content from the session URL
-    const response = await fetch(sessionUrl);
-    if (!response.ok) {
+    const response = await axios.get(sessionUrl);
+    if (response.status !== 200) {
       throw new Error('Network response was not ok');
     }
-    const htmlText = await response.text();
+    const htmlText = response.data;
 
     // Use jsdom to parse the HTML
     const { JSDOM } = require('jsdom');
@@ -81,7 +83,6 @@ exports.handler = async function(event, context) {
       };
     }));
 
-    
     return {
       statusCode: 200,
       body: JSON.stringify({
@@ -128,11 +129,11 @@ function getAllDecodedServers(_zG, _zH) {
 
 async function streamwishExtractor(url) {
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
+        const response = await axios.get(url);
+        if (response.status !== 200) {
             throw new Error('Network response was not ok');
         }
-        const htmlText = await response.text();
+        const htmlText = response.data;
 
         let m3u8 = "";
         const match = htmlText.match(/eval(.*?)\n<\/script>/s);
@@ -145,11 +146,11 @@ async function streamwishExtractor(url) {
         try {
             const wrapped = `var data = ${match[1]}; data;`;
             const result = eval(wrapped);
-            
+
             // Extract m3u8 URL
             const m3u8Match = result.match(/hls2":"(.*?)"/);
             m3u8 = m3u8Match ? m3u8Match[1] : null;
-            
+
             return m3u8 || url;
         } catch (err) {
             console.warn('Failed to extract m3u8:', err);

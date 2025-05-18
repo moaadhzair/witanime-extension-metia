@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 exports.handler = async function(event, context) {
   // Check if search keyword is provided
   if (!event.queryStringParameters || !event.queryStringParameters.keyword) {
@@ -13,11 +15,11 @@ exports.handler = async function(event, context) {
     const searchUrl = baseUrl + encodeURIComponent(keyword);
 
     // Fetch HTML content from the search URL
-    const response = await fetch(searchUrl);
-    if (!response.ok) {
+    const response = await axios.get(searchUrl);
+    if (response.status !== 200) {
       throw new Error('Network response was not ok');
     }
-    const htmlText = await response.text();
+    const htmlText = response.data;
 
     // Use jsdom since DOMParser is not available in Node
     const { JSDOM } = require('jsdom');
