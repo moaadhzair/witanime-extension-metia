@@ -79,13 +79,17 @@ exports.handler = async function(event, context) {
         
         console.log(hlsUrl);
         return {
-          name: server.name,
-          url: hlsUrl
+          provider: server.name,
+          m3u8: hlsUrl,
+          dub: false,
+          sub: true
         };
       }
       return {
-        name: server.name,
-        url: url
+        provider: server.name,
+        link: url,
+        dub: false,
+        sub: true
       };
     }));
 
