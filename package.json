@@ -1,0 +1,17 @@
+{
+  "name": "netlify-functions-playground",
+  "version": "1.0.0",
+  "description": "A playground for Netlify Functions",
+  "main": "index.js",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "@netlify/functions": "^2.0.0",
+    "jsdom": "^24.0.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+} 
